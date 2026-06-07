@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#0A0A0A"/>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#C6FF00" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#C6FF00" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <g transform="translate(80,80)">
+    <rect x="0" y="0" width="44" height="44" rx="10" fill="#C6FF00"/>
+    <path d="M16 22a5 5 0 0 1 5-5h5a5 5 0 1 1 0 10h-2.5" stroke="#0A0A0A" stroke-width="3.4" stroke-linecap="round" transform="translate(0,0)"/>
+    <path d="M28 22a5 5 0 0 1-5 5h-5a5 5 0 1 1 0-10h2.5" stroke="#0A0A0A" stroke-width="3.4" stroke-linecap="round"/>
+    <text x="60" y="32" font-family="'Space Grotesk',Arial,sans-serif" font-size="30" font-weight="700" fill="#F5F5F5">Freedom<tspan fill="#C6FF00">Links</tspan></text>
+  </g>
+  <text x="80" y="330" font-family="'Space Grotesk',Arial,sans-serif" font-size="84" font-weight="700" letter-spacing="-3" fill="#F5F5F5">The links you&#8217;ve</text>
+  <text x="80" y="430" font-family="'Space Grotesk',Arial,sans-serif" font-size="84" font-weight="700" letter-spacing="-3" fill="#C6FF00">been looking for.</text>
+  <text x="80" y="525" font-family="Arial,sans-serif" font-size="28" fill="#8A8A8A">Premium sourcing guides · Verified sellers · Insider pricing · Instant delivery</text>
+</svg>
