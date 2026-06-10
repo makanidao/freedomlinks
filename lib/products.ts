@@ -38,6 +38,16 @@ export interface Product {
   /** Optional list of included items, rendered as the "What's inside" bullets. */
   inside?: string[];
   /**
+   * Optional "was" price shown struck-through when the item is on sale, e.g.
+   * "$250". Display-only — the amount actually charged is the Stripe Price.
+   */
+  compareAtDisplay?: string;
+  /**
+   * Optional sale-urgency countdown length in seconds (e.g. 600 = 10 minutes).
+   * When set alongside `compareAtDisplay`, a live ticking timer is rendered.
+   */
+  saleCountdownSeconds?: number;
+  /**
    * Cover image path in /public (e.g. "/products/sm7b.jpg"). Optional — when
    * absent, the art panel renders the branded gradient + monogram instead.
    */
@@ -66,8 +76,10 @@ export const products: Product[] = [
       "All in one purchase",
       "The same instant delivery",
     ],
-    priceDisplay: "$79",
-    priceAmount: 79,
+    priceDisplay: "$80",
+    priceAmount: 80,
+    compareAtDisplay: "$300",
+    saleCountdownSeconds: 600,
     currency: "USD",
     stripePriceEnv: "STRIPE_PRICE_ALL_VENDORS",
     image: "/products/all-vendors.png",
@@ -88,8 +100,10 @@ export const products: Product[] = [
       "Sourcing and pricing strategy for scaling regionally",
       "The common beginner mistakes that cost people money",
     ],
-    priceDisplay: "$49",
-    priceAmount: 49,
+    priceDisplay: "$40",
+    priceAmount: 40,
+    compareAtDisplay: "$250",
+    saleCountdownSeconds: 600,
     currency: "USD",
     stripePriceEnv: "STRIPE_PRICE_COACHING",
     image: "/products/coaching.png",

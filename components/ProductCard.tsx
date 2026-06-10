@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Product } from "@/lib/products";
 import { ProductArt } from "@/components/ProductArt";
+import { CountdownTimer } from "@/components/CountdownTimer";
 
 export function ProductCard({
   product,
@@ -31,6 +32,31 @@ export function ProductCard({
         aria-label={`View the ${product.name}`}
       />
 
+      {product.compareAtDisplay && (
+        <div className="absolute left-6 top-6 z-30 inline-flex items-center gap-1.5 rounded-full bg-lime px-3 py-1 text-xs font-display font-bold text-ink shadow-glow">
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span>Sale</span>
+          <CountdownTimer
+            seconds={product.saleCountdownSeconds ?? 600}
+            className="tabular-nums"
+          />
+        </div>
+      )}
+
       <div className="transition-transform duration-500 ease-out group-hover:scale-[1.02]">
         <ProductArt product={product} />
       </div>
@@ -52,8 +78,15 @@ export function ProductCard({
             <span className="block text-[11px] font-medium uppercase tracking-[0.18em] text-ash">
               Instant access
             </span>
-            <span className="font-display text-2xl font-bold text-lime">
-              {product.priceDisplay}
+            <span className="flex items-baseline gap-2">
+              <span className="font-display text-2xl font-bold text-lime">
+                {product.priceDisplay}
+              </span>
+              {product.compareAtDisplay && (
+                <span className="text-sm font-medium text-ash line-through">
+                  {product.compareAtDisplay}
+                </span>
+              )}
             </span>
           </div>
           <span className="relative z-30 inline-flex h-11 items-center gap-2 rounded-full bg-lime px-5 text-sm font-display font-semibold text-ink shadow-glow transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-glow-strong">
