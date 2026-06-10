@@ -40,6 +40,22 @@ export function BuyButton({
         throw new Error(data.error || "Could not start checkout. Please try again.");
       }
 
+      // Debug (opt-in): set NEXT_PUBLIC_DEBUG_CHECKOUT=true to log the
+      // publishable key the BROWSER bundle actually loaded. NEXT_PUBLIC_* is
+      // inlined at build time, so the flag must be NEXT_PUBLIC too — and you
+      // must redeploy after changing it. When unset, this block is stripped from
+      // the production bundle. Publishable keys are public, so logging the prefix
+      // is safe. Compare it to the server-side pubKeyPrefix from /api/checkout —
+      // a mismatch means the deployed client is using a stale/wrong key.
+      if (process.env.NEXT_PUBLIC_DEBUG_CHECKOUT === "true") {
+        const pubKeyPrefix = (
+          process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""
+        ).slice(0, 12);
+        console.log(
+          `[checkout/client] publishableKeyPrefix="${pubKeyPrefix}…" sessionId="${data.id ?? "(none)"}"`
+        );
+      }
+
       // Prefer Stripe.js redirect when configured; fall back to the session URL.
       if (data.id) {
         const stripe = await getStripeClient();

@@ -53,6 +53,25 @@ export async function POST(request: Request) {
     const stripe = getStripe();
     const baseUrl = resolveBaseUrl();
 
+    // Debug (opt-in): set DEBUG_CHECKOUT=true to log which price ID and which
+    // Stripe keys (mode/account) are in play. Logs only the first 12 chars of
+    // each key — never the full key. Off by default, so nothing runs in
+    // production unless you explicitly enable it. The publishable prefix here is
+    // the SERVER runtime value; compare it to the client-side prefix logged in
+    // BuyButton (inlined at build time) — if they differ, the deploy is using a
+    // stale/mismatched NEXT_PUBLIC key.
+    if (process.env.DEBUG_CHECKOUT === "true") {
+      const secretKeyPrefix = (process.env.STRIPE_SECRET_KEY ?? "").slice(0, 12);
+      const pubKeyPrefix = (
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""
+      ).slice(0, 12);
+      console.log(
+        `[checkout] slug="${product.slug}" env=${product.stripePriceEnv} ` +
+          `priceId="${priceId}" secretKeyPrefix="${secretKeyPrefix}…" ` +
+          `pubKeyPrefix(server)="${pubKeyPrefix}…"`
+      );
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],

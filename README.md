@@ -10,7 +10,7 @@ A complete, production-ready digital storefront for premium vendor lists, built 
 
 - Premium dark design system (near-black charcoal + electric lime) with Space Grotesk / Inter, grain texture, custom scrollbar, and scroll-triggered animations.
 - Fully responsive landing page: hero, product grid, How It Works, Why FreedomLinks, and an accessible FAQ accordion.
-- Individual product pages at `/products/[slug]` for all seven vendors.
+- Individual product pages at `/products/[slug]` for every vendor, the coaching guide, and the complete bundle.
 - **Stripe Checkout** via an API route, a **signature-verified webhook**, and a **server-verified success page** that reveals protected content only after a confirmed payment.
 - Protected sourcing links live in a `server-only` module and are never sent to the browser until payment is verified.
 - SEO: titles, meta descriptions, Open Graph + Twitter tags, JSON-LD product data.
@@ -93,9 +93,9 @@ In the [Stripe Dashboard](https://dashboard.stripe.com/apikeys) (start in **Test
 
 ### 2. Create a product + price for each vendor
 
-In **Products → Add product**, create one product per vendor and give each a one-time price:
+In **Products → Add product**, create one product per item and give each a one-time price:
 
-| Vendor | Suggested price | Env variable |
+| Product | Suggested price | Env variable |
 |---|---|---|
 | Shure SM7B Vendor | $20 | `STRIPE_PRICE_SM7B` |
 | Chrome Hearts Vendor | $15 | `STRIPE_PRICE_CHROME_HEARTS` |
@@ -104,6 +104,11 @@ In **Products → Add product**, create one product per vendor and give each a o
 | Dyson Vendor | $15 | `STRIPE_PRICE_DYSON` |
 | Sp5der Vendor | $15 | `STRIPE_PRICE_SP5DER` |
 | AirPods Max Vendor | $15 | `STRIPE_PRICE_AIRPODS_MAX` |
+| ALOCS Vendor | $15 | `STRIPE_PRICE_ALOCS` |
+| Hellstar Vendor | $15 | `STRIPE_PRICE_HELLSTAR` |
+| Meta Vendor | $15 | `STRIPE_PRICE_META` |
+| Reselling Coaching | $49 | `STRIPE_PRICE_COACHING` |
+| All My Vendors (bundle) | $79 | `STRIPE_PRICE_ALL_VENDORS` |
 
 Copy each **Price ID** (looks like `price_1Q...`) into the matching env variable.
 

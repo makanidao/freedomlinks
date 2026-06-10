@@ -36,11 +36,18 @@ export function ProductCard({
       </div>
 
       <div className="flex flex-1 flex-col px-2 pb-2 pt-6">
-        <h3 className="text-xl font-bold tracking-tight text-bone">
-          Best {product.name}
-        </h3>
+        <div>
+          <h3 className="text-xl font-bold tracking-tight text-bone">
+            {product.name}
+          </h3>
+          {product.tagline && (
+            <p className="mt-2 text-sm leading-relaxed text-ash">
+              {product.tagline}
+            </p>
+          )}
+        </div>
 
-        <div className="mt-6 flex items-end justify-between border-t border-ink-600 pt-5">
+        <div className="mt-auto flex items-end justify-between border-t border-ink-600 pt-5">
           <div>
             <span className="block text-[11px] font-medium uppercase tracking-[0.18em] text-ash">
               Instant access

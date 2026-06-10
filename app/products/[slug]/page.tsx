@@ -20,8 +20,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
   if (!product) {
     return { title: "Product not found" };
   }
-  const title = `Best ${product.name}`;
-  const description = `Best ${product.name}`;
+  const title = product.name;
+  const description = product.tagline ?? product.name;
   return {
     title,
     description,
@@ -43,8 +43,8 @@ export default function ProductPage({ params }: PageProps) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: `Best ${product.name}`,
-    description: `Best ${product.name}`,
+    name: product.name,
+    description: product.tagline ?? product.name,
     category: product.category,
     brand: { "@type": "Brand", name: "FreedomLinks" },
     offers: {
@@ -81,8 +81,14 @@ export default function ProductPage({ params }: PageProps) {
           <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <h1 className="text-balance text-4xl font-bold leading-[1.02] tracking-tightest text-bone sm:text-5xl md:text-6xl">
-                Best {product.name}
+                {product.name}
               </h1>
+
+              {product.tagline && (
+                <p className="mt-5 max-w-xl text-balance text-lg leading-relaxed text-ash">
+                  {product.tagline}
+                </p>
+              )}
 
               <div className="mt-9 flex flex-col gap-5 sm:flex-row sm:items-center">
                 <div>
@@ -107,6 +113,61 @@ export default function ProductPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      {/* What's inside — only for products that define overview/inside */}
+      {(product.overview || product.inside) && (
+        <section className="border-t border-ink-600 bg-ink-800 py-20 sm:py-28">
+          <div className="container-px">
+            <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+              <AnimatedReveal>
+                <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-lime">
+                  <span className="h-px w-6 bg-lime" />
+                  What&apos;s inside
+                </span>
+                <h2 className="mt-5 text-3xl font-bold tracking-tighter text-bone sm:text-4xl">
+                  Everything you get the second you unlock it
+                </h2>
+                {product.overview && (
+                  <p className="mt-5 text-base leading-relaxed text-ash">
+                    {product.overview}
+                  </p>
+                )}
+              </AnimatedReveal>
+
+              {product.inside && (
+                <ul className="space-y-3">
+                  {product.inside.map((line, i) => (
+                    <AnimatedReveal key={line} delay={i * 0.05}>
+                      <li className="group flex gap-4 rounded-2xl border border-ink-600 bg-ink p-5 transition-colors duration-300 hover:border-lime/40">
+                        <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-lime text-ink">
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M5 13l4 4L19 7"
+                              stroke="currentColor"
+                              strokeWidth="2.4"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
+                        <span className="text-[15px] leading-relaxed text-bone">
+                          {line}
+                        </span>
+                      </li>
+                    </AnimatedReveal>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Trust / guarantee */}
       <section className="py-20 sm:py-24">

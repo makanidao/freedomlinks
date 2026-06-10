@@ -7,7 +7,7 @@ export function ProductsSection() {
     <Section id="products">
       <SectionHeading
         eyebrow="The Drops"
-        title="Seven vendors. Zero guesswork."
+        title="Every drop. Zero guesswork."
         description="Each drop is a complete sourcing package — verified sellers, current pricing, and the insider details that get you the real deal."
       />
 

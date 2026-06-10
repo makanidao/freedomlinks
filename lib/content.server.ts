@@ -1,5 +1,5 @@
 import "server-only";
-import type { ProductSlug } from "@/lib/products";
+import { getProduct, type ProductSlug } from "@/lib/products";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PROTECTED DELIVERY CONTENT
@@ -31,7 +31,9 @@ export interface DeliveredGuide {
   proTips: string[];
 }
 
-const content: Record<ProductSlug, DeliveredGuide> = {
+// Per-product delivered guides. The bundle ("all-vendors") is assembled below
+// from these entries, so this base map covers every slug EXCEPT "all-vendors".
+const baseContent: Record<Exclude<ProductSlug, "all-vendors">, DeliveredGuide> = {
   sm7b: {
     intro:
       "You're in. Below is the full Shure SM7B sourcing map — the authorized dealers that price fairly, the live price-tracking tools to catch drops, the bundle intel, and the traps to avoid. Bookmark this page.",
@@ -454,6 +456,294 @@ const content: Record<ProductSlug, DeliveredGuide> = {
       "Factor in replacement ear cushions and a genuine cable when comparing a 'deal' refurb against new — they affect real long-term value.",
     ],
   },
+
+  "alocs-vendor": {
+    intro:
+      "You're in. This is your ALOCS sourcing map — the authentic-only channels, the platforms that authenticate every piece before it ships, and the exact tells that separate the real thing from a replica. Lead with verification and you'll skip both the fakes and the resale markup.",
+    sections: [
+      {
+        title: "Authentic-only channels",
+        blurb:
+          "Buy through platforms that authenticate every item before it reaches you, or track down sold-out pieces with buyer protection in place. This is the lowest-risk way to source real ALOCS.",
+        links: [
+          {
+            label: "StockX — search ALOCS",
+            url: "https://stockx.com/search?s=alocs",
+            note: "Authenticates each item before it ships to you. Use the live market price here as your reference so you never overpay a private seller.",
+          },
+          {
+            label: "GOAT — search ALOCS",
+            url: "https://www.goat.com/search?query=alocs",
+            note: "In-house authentication on every order. The 'used' tab often surfaces genuine pieces below retail — check it before paying full.",
+          },
+          {
+            label: "Grailed",
+            url: "https://www.grailed.com/",
+            note: "Best for hunting down sold-out pieces, but these are private sales — run the checklist below and pay only buyer-protected before committing.",
+          },
+        ],
+      },
+      {
+        title: "Authenticate before you pay",
+        blurb:
+          "On hyped pieces the replicas are good. A few dollars of paid verification on any private-seller item saves you the entire purchase price.",
+        links: [
+          {
+            label: "LegitGrails — streetwear authentication",
+            url: "https://legitgrails.com/",
+            note: "Paid human authentication from photos, usually within hours. Worth it on anything you can't buy through an authenticating platform.",
+          },
+          {
+            label: "CheckCheck — app authentication",
+            url: "https://checkcheck.me/",
+            note: "Fast human legit-check via app. Send tag, stitching, and print photos before sending a single dollar to a private seller.",
+          },
+        ],
+      },
+    ],
+    proTips: [
+      "Lead with the source, not the deal: buy through an authenticating platform (StockX, GOAT) whenever you can't buy direct.",
+      "Inspect tags and stitching against official references: wrong font weight, crooked labels, or sloppy interior stitching means walk away.",
+      "Check the print and hardware — genuine work is dense and evenly applied. Thin, scratchy, or misaligned graphics are a replica tell.",
+      "Red flags on private sales: prices far below the platform market rate, stock photos only, 'no returns', and sellers who won't shoot a requested angle.",
+      "For any DM/Grailed sale, get a paid legit check first and pay only through buyer-protected methods — never friends-and-family.",
+    ],
+  },
+
+  "hellstar-vendor": {
+    intro:
+      "You're set. This is your Hellstar sourcing directory plus the authentication playbook — the authentic-only channels, the platforms that verify every piece before it ships, and the tells that separate real heat from a fake. Verify first and you'll never get burned.",
+    sections: [
+      {
+        title: "Authentic-only channels",
+        blurb:
+          "Buy direct from the brand or from platforms that authenticate every item before it reaches you. This is the lowest-risk way to own real Hellstar without overpaying a reseller.",
+        links: [
+          {
+            label: "Hellstar — official store",
+            url: "https://hellstarclothing.shop/",
+            note: "The brand's own store and the source of truth for live drops and pricing. Confirm you're on the official domain before buying — lookalike sites are common.",
+          },
+          {
+            label: "StockX — Hellstar",
+            url: "https://stockx.com/brands/hellstar",
+            note: "Authenticates each item before it ships to you. Use the live market price here as your reference so you never overpay a private seller.",
+          },
+          {
+            label: "GOAT — search Hellstar",
+            url: "https://www.goat.com/search?query=hellstar",
+            note: "In-house authentication on every order. Strong for hoodies and tees; the 'used' tab often has genuine pieces below retail.",
+          },
+          {
+            label: "Grailed — Hellstar",
+            url: "https://www.grailed.com/designers/hellstar",
+            note: "Best for tracking down sold-out pieces, but these are private sales — run the checklist below and pay only buyer-protected before committing.",
+          },
+        ],
+      },
+      {
+        title: "Authenticate before you pay",
+        blurb:
+          "On hyped streetwear the replicas are good. A few dollars of paid verification on any private-seller piece saves you the entire purchase price.",
+        links: [
+          {
+            label: "LegitGrails — streetwear authentication",
+            url: "https://legitgrails.com/",
+            note: "Paid human authentication from photos, usually within hours. Worth it on anything you can't buy through an authenticating platform.",
+          },
+          {
+            label: "CheckCheck — app authentication",
+            url: "https://checkcheck.me/",
+            note: "Fast human legit-check via app. Send tag, stitching, and print photos before sending a single dollar to a private seller.",
+          },
+        ],
+      },
+    ],
+    proTips: [
+      "Lead with the source, not the deal: buy through an authenticating platform (StockX, GOAT) whenever you can't buy direct from the official store.",
+      "Check the print and puff — genuine graphics are dense and evenly applied. Thin, scratchy, or misaligned prints are a replica tell.",
+      "Inspect tags and stitching against official references: wrong font weight, crooked labels, or sloppy interior stitching means walk away.",
+      "Red flags on private sales: prices far below the platform market rate, stock photos only, 'no returns', and sellers who won't shoot a requested angle.",
+      "For any Grailed/DM sale, get a paid legit check first and pay only through buyer-protected methods — never friends-and-family.",
+    ],
+  },
+
+  "meta-vendor": {
+    intro:
+      "You're set. These are the trusted channels for authentic Meta hardware — Quest headsets and Ray-Ban Meta smart glasses — below the standard retail pages. Start with Meta's own store and authorized retailers, verify every serial, and you'll land a genuine unit at a real price with zero counterfeit risk.",
+    sections: [
+      {
+        title: "Authentic Meta hardware — official & authorized",
+        blurb:
+          "Genuine units, full warranty, real returns. These are the lowest-risk places to buy and the right reference for what a fair price actually is.",
+        links: [
+          {
+            label: "Meta Store — official",
+            url: "https://www.meta.com/quest/",
+            note: "Ground truth for current Quest and Ray-Ban Meta models, specs, and pricing. Register any unit to confirm its warranty.",
+          },
+          {
+            label: "Best Buy — Meta Quest",
+            url: "https://www.bestbuy.com/site/virtual-reality/meta-quest/pcmcat1633casnci.c",
+            note: "Authorized retailer. Genuine stock, real returns, and frequent legitimate sale events — time a purchase around them for the best price.",
+          },
+          {
+            label: "Ray-Ban — Meta smart glasses (official)",
+            url: "https://www.ray-ban.com/usa/ray-ban-meta-smart-glasses",
+            note: "The source of truth for genuine Ray-Ban Meta. Confirm frame/lens options here before buying anywhere else so you know a fair price.",
+          },
+          {
+            label: "Amazon (sold by Amazon.com)",
+            url: "https://www.amazon.com/stores/Meta/page/",
+            note: "Only buy when the listing reads 'Ships from and sold by Amazon.com'. Third-party marketplace sellers are where the clones live — skip them.",
+          },
+        ],
+      },
+      {
+        title: "Refurbished & verification",
+        blurb:
+          "Certified refurbished direct from Meta is genuine and warrantied — usually the smartest discount. Verify every unit's serial before you pay.",
+        links: [
+          {
+            label: "Meta Certified Refurbished",
+            url: "https://www.meta.com/quest/refurbished/",
+            note: "Meta's own refurb: genuine, fully tested, with warranty. The value sweet spot when in stock — check availability often.",
+          },
+          {
+            label: "Meta — warranty & device support",
+            url: "https://www.meta.com/help/quest/",
+            note: "Register the serial number to confirm coverage. Genuine units register cleanly; clones and gray-market imports won't.",
+          },
+        ],
+      },
+    ],
+    proTips: [
+      "Lead with Meta's own store and certified-refurbished outlet: genuine, tested, full warranty — usually the lowest-risk buy at a fair price.",
+      "Always register the serial number with Meta before relying on a unit. A missing serial, or a seller who won't share it, is a red flag.",
+      "Counterfeit/clone tells: misspelled packaging, no serial, prices far below the channels above, and 'sealed' units shipped in plain boxes.",
+      "On Amazon and eBay, buy only when it ships from Meta or the platform itself — third-party 'new' units at a deep discount are frequently fakes.",
+      "For Ray-Ban Meta, confirm the exact frame and lens combo on Ray-Ban's official page — knockoffs copy the look but not the genuine electronics.",
+    ],
+  },
+
+  coaching: {
+    intro:
+      "Welcome in. This is your reselling operations playbook — the platforms to sell on, the accounts and tools to set up, and the sourcing-and-pricing strategy to scale from your first flip to a regional operation. Work through the sections in order; each link is a piece of the system.",
+    sections: [
+      {
+        title: "Where to sell",
+        blurb:
+          "The marketplaces that move volume. Start on one, master it, then expand. Each has its own fees, audience, and best-fit categories.",
+        links: [
+          {
+            label: "eBay — Seller Center",
+            url: "https://www.ebay.com/sellercenter/selling",
+            note: "The workhorse for almost any category. Best buyer reach and price-research tools. Start here before anywhere else.",
+          },
+          {
+            label: "Whatnot",
+            url: "https://www.whatnot.com/",
+            note: "Live-auction selling that moves inventory fast — strong for streetwear, sneakers, and collectibles. Apply early; approval can take time.",
+          },
+          {
+            label: "Mercari",
+            url: "https://www.mercari.com/",
+            note: "Low-friction listings and a casual buyer base. Good for clearing general inventory and testing what sells before scaling.",
+          },
+          {
+            label: "StockX",
+            url: "https://stockx.com/sell",
+            note: "Authenticated marketplace for hyped sneakers and apparel. Predictable market pricing makes it easy to source-to-flip with known margins.",
+          },
+        ],
+      },
+      {
+        title: "Accounts & tools to set up",
+        blurb:
+          "The infrastructure that separates a hobby from a business. Set these up early so your money, taxes, and bookkeeping stay clean as you scale.",
+        links: [
+          {
+            label: "PayPal — Business account",
+            url: "https://www.paypal.com/us/business",
+            note: "Keep business payments separate from personal from day one. Cleaner bookkeeping and easier taxes when volume grows.",
+          },
+          {
+            label: "U.S. Small Business Administration — register a business",
+            url: "https://www.sba.gov/business-guide/launch-your-business/register-your-business",
+            note: "The official guide to registering your business and getting set up legally. Do this before you scale, not after.",
+          },
+          {
+            label: "IRS — Employer ID Number (EIN)",
+            url: "https://www.irs.gov/businesses/small-businesses-self-employed/get-an-employer-identification-number",
+            note: "Free, official EIN application. Lets you open business accounts and keep your SSN off marketplace and wholesale paperwork.",
+          },
+        ],
+      },
+      {
+        title: "Sourcing & pricing strategy",
+        blurb:
+          "Margin is made when you buy, not when you sell. Use these to research real market prices and source inventory at the right cost.",
+        links: [
+          {
+            label: "eBay — completed/sold listings filter",
+            url: "https://www.ebay.com/sl/sell",
+            note: "Filter to 'Sold items' to see what things ACTUALLY sell for, not asking prices. Your single most important pricing tool.",
+          },
+          {
+            label: "130point — real sold-price lookup",
+            url: "https://130point.com/sales/",
+            note: "Pulls real sold prices including best-offer accepted amounts eBay hides. Price and source against true market, not list price.",
+          },
+        ],
+      },
+    ],
+    proTips: [
+      "Pick ONE platform and master it before adding a second. Spreading thin early is the most common reason new resellers stall.",
+      "Price off SOLD listings, never asking prices. What a thing is listed for and what it actually sells for are very different numbers.",
+      "Separate business money from personal from day one — a dedicated payment account and (when you scale) an EIN save you a tax-season nightmare.",
+      "Reinvest early profits into more inventory instead of pulling them out. Compounding your buy budget is how a side hustle becomes regional.",
+      "Track every cost — item, shipping, fees, supplies — so your 'profit' is real profit. Most beginners overstate margins by ignoring fees.",
+    ],
+  },
+};
+
+// ── Bundle assembly ─────────────────────────────────────────────────────────
+// "All My Vendors" delivers every individual VENDOR guide's sourcing sections in
+// one place. We stitch them together here (prefixing each section with the
+// product name) so the success page and DeliveryReveal need no special-casing.
+const BUNDLE_SLUGS: Exclude<ProductSlug, "all-vendors">[] = [
+  "sm7b",
+  "chrome-hearts",
+  "sur-ron",
+  "cologne-vendor",
+  "dyson-vendor",
+  "sp5der-vendor",
+  "airpods-max-vendor",
+  "alocs-vendor",
+  "hellstar-vendor",
+  "meta-vendor",
+];
+
+const allVendorsGuide: DeliveredGuide = {
+  intro:
+    "You unlocked everything. Below is the complete FreedomLinks vault — every vendor guide stitched into one map, grouped by product. Each section carries the same verified channels, authentication checks, and pricing intel as the standalone guides. Bookmark this page; it's your whole sourcing operation in one place.",
+  sections: BUNDLE_SLUGS.flatMap((slug) => {
+    const name = getProduct(slug)?.name ?? slug;
+    return baseContent[slug].sections.map((section) => ({
+      ...section,
+      title: `${name} · ${section.title}`,
+    }));
+  }),
+  proTips: [
+    "Lead with verification on every category: buy through authenticating platforms or official/authorized dealers before any private seller.",
+    "Price off real SOLD data, not asking prices — it applies whether you're buying a mic, a hoodie, or a pair of headphones.",
+    "Bookmark this page. It's the combined vault for every guide, so you never have to re-hunt a single source.",
+  ],
+};
+
+const content: Record<ProductSlug, DeliveredGuide> = {
+  ...baseContent,
+  "all-vendors": allVendorsGuide,
 };
 
 export function getDeliveredContent(slug: ProductSlug): DeliveredGuide {

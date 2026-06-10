@@ -10,7 +10,12 @@ export type ProductSlug =
   | "cologne-vendor"
   | "dyson-vendor"
   | "sp5der-vendor"
-  | "airpods-max-vendor";
+  | "airpods-max-vendor"
+  | "alocs-vendor"
+  | "hellstar-vendor"
+  | "meta-vendor"
+  | "coaching"
+  | "all-vendors";
 
 export interface Product {
   slug: ProductSlug;
@@ -26,6 +31,12 @@ export interface Product {
   currency: string;
   /** Env var name that holds this product's Stripe Price ID. */
   stripePriceEnv: string;
+  /** Optional short tagline shown on the card and the product-page hero. */
+  tagline?: string;
+  /** Optional overview paragraph rendered in the product page's "What's inside" area. */
+  overview?: string;
+  /** Optional list of included items, rendered as the "What's inside" bullets. */
+  inside?: string[];
   /**
    * Cover image path in /public (e.g. "/products/sm7b.jpg"). Optional — when
    * absent, the art panel renders the branded gradient + monogram instead.
@@ -126,6 +137,87 @@ export const products: Product[] = [
     image: "/products/airpods-max.png",
     artwork: { from: "#1C1C1C", to: "#0A0A0A", monogram: "AM" },
     sellerCount: 8,
+  },
+  {
+    slug: "alocs-vendor",
+    name: "ALOCS Vendor",
+    category: "Streetwear",
+    tagline: "The plug for the pieces everyone's after.",
+    priceDisplay: "$15",
+    priceAmount: 15,
+    currency: "USD",
+    stripePriceEnv: "STRIPE_PRICE_ALOCS",
+    image: "/products/alocs.png",
+    artwork: { from: "#242424", to: "#0A0A0A", monogram: "AL" },
+    sellerCount: 12,
+  },
+  {
+    slug: "hellstar-vendor",
+    name: "Hellstar Vendor",
+    category: "Streetwear",
+    tagline: "Real heat, no fakes.",
+    priceDisplay: "$15",
+    priceAmount: 15,
+    currency: "USD",
+    stripePriceEnv: "STRIPE_PRICE_HELLSTAR",
+    image: "/products/hellstar.png",
+    artwork: { from: "#1C1C1C", to: "#0A0A0A", monogram: "HS" },
+    sellerCount: 12,
+  },
+  {
+    slug: "meta-vendor",
+    name: "Meta Vendor",
+    category: "Tech / Wearables",
+    tagline: "Real heat, no fakes.",
+    priceDisplay: "$15",
+    priceAmount: 15,
+    currency: "USD",
+    stripePriceEnv: "STRIPE_PRICE_META",
+    image: "/products/meta.png",
+    artwork: { from: "#242424", to: "#0A0A0A", monogram: "MV" },
+    sellerCount: 10,
+  },
+  {
+    slug: "coaching",
+    name: "Reselling Coaching",
+    category: "Coaching",
+    tagline: "Build a reselling operation across your whole state.",
+    overview:
+      "A complete coaching guide on how to start and scale a reselling business across your entire state and neighboring areas. Built from real experience, it walks you through going from zero to running sourcing and sales at scale — not just in your town, but across your whole region.",
+    inside: [
+      "How to start reselling and expand across your whole state and into neighboring areas",
+      "How to set up the accounts you need to operate — selling platforms, payment accounts, and business accounts",
+      "How to find and vet vendors",
+      "Sourcing and pricing strategy for scaling regionally",
+      "The common beginner mistakes that cost people money",
+    ],
+    priceDisplay: "$49",
+    priceAmount: 49,
+    currency: "USD",
+    stripePriceEnv: "STRIPE_PRICE_COACHING",
+    image: "/products/coaching.png",
+    artwork: { from: "#1C1C1C", to: "#0A0A0A", monogram: "RC" },
+    sellerCount: 0,
+  },
+  {
+    slug: "all-vendors",
+    name: "All My Vendors",
+    category: "Complete Bundle",
+    tagline: "Every vendor. One drop.",
+    overview:
+      "The complete FreedomLinks collection. Every sourcing guide in one bundle at a discounted price versus buying individually.",
+    inside: [
+      "Access to every individual vendor guide in the store",
+      "All in one purchase",
+      "The same instant delivery",
+    ],
+    priceDisplay: "$79",
+    priceAmount: 79,
+    currency: "USD",
+    stripePriceEnv: "STRIPE_PRICE_ALL_VENDORS",
+    image: "/products/all-vendors.png",
+    artwork: { from: "#242424", to: "#0A0A0A", monogram: "ALL" },
+    sellerCount: 0,
   },
 ];
 
