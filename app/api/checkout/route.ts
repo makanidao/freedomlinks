@@ -1,22 +1,9 @@
 import { NextResponse } from "next/server";
-import { headers } from "next/headers";
 import { getStripe } from "@/lib/stripe";
 import { getProduct, isProductSlug } from "@/lib/products";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-function resolveBaseUrl(): string {
-  const configured = process.env.NEXT_PUBLIC_SITE_URL;
-  if (configured) return configured.replace(/\/$/, "");
-
-  const h = headers();
-  const host = h.get("host");
-  const proto = h.get("x-forwarded-proto") ?? "https";
-  if (host) return `${proto}://${host}`;
-
-  return "http://localhost:3000";
-}
 
 export async function POST(request: Request) {
   let slug: unknown;
@@ -51,7 +38,6 @@ export async function POST(request: Request) {
 
   try {
     const stripe = getStripe();
-    const baseUrl = resolveBaseUrl();
 
     // Debug (opt-in): set DEBUG_CHECKOUT=true to log which price ID and which
     // Stripe keys (mode/account) are in play. Logs only the first 12 chars of
@@ -74,21 +60,28 @@ export async function POST(request: Request) {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      // Embedded checkout that stays on our site — there is NO post-payment
+      // redirect. The buyer completes payment in Stripe's embedded form and sees
+      // Stripe's own inline confirmation (redirect_on_completion: "never"), so we
+      // never send them to /success and nothing is auto-delivered by the site.
+      ui_mode: "embedded",
+      redirect_on_completion: "never",
       line_items: [{ price: priceId, quantity: 1 }],
-      // The slug travels with the session so we can identify exactly which
-      // product to unlock on the success page and in the webhook.
+      // The slug still travels with the session so the webhook can record which
+      // product was purchased.
       metadata: { slug: product.slug },
       client_reference_id: product.slug,
-      success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/cancel`,
       allow_promotion_codes: true,
     });
 
-    if (!session.url) {
-      throw new Error("Stripe did not return a checkout URL.");
+    if (!session.client_secret) {
+      throw new Error("Stripe did not return a client secret.");
     }
 
-    return NextResponse.json({ url: session.url, id: session.id });
+    return NextResponse.json({
+      clientSecret: session.client_secret,
+      id: session.id,
+    });
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Unexpected checkout error.";

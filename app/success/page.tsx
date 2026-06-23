@@ -77,7 +77,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
     <section className="grain relative min-h-screen overflow-hidden pt-28 sm:pt-36">
       <div className="pointer-events-none absolute inset-0 bg-radial-spot" />
       <div className="container-px relative z-10 pb-24">
-        <DeliveryReveal product={product} guide={guide} />
+        <DeliveryReveal product={product} guide={guide} sessionId={sessionId} />
       </div>
     </section>
   );

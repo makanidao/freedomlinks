@@ -15,6 +15,7 @@ export type ProductSlug =
   | "hellstar-vendor"
   | "meta-vendor"
   | "coaching"
+  | "test"
   | "all-vendors";
 
 export interface Product {
@@ -232,6 +233,18 @@ export const products: Product[] = [
     image: "/products/hellstar.png",
     artwork: { from: "#1C1C1C", to: "#0A0A0A", monogram: "HS" },
     sellerCount: 12,
+  },
+  {
+    slug: "test",
+    name: "Test",
+    category: "Test",
+    tagline: "A free test item.",
+    priceDisplay: "$0",
+    priceAmount: 0,
+    currency: "USD",
+    stripePriceEnv: "STRIPE_PRICE_TEST",
+    artwork: { from: "#1C1C1C", to: "#0A0A0A", monogram: "TST" },
+    sellerCount: 0,
   },
 ];
 

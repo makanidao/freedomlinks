@@ -11,10 +11,13 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export function DeliveryReveal({
   product,
   guide,
+  sessionId,
 }: {
   product: Product;
   guide: DeliveredGuide;
+  sessionId: string;
 }) {
+  const downloadHref = `/api/download?session_id=${encodeURIComponent(sessionId)}`;
   return (
     <div className="mx-auto max-w-3xl">
       <motion.div
@@ -52,6 +55,37 @@ export function DeliveryReveal({
       >
         {guide.intro}
       </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.18, ease }}
+        className="mt-6 flex flex-col items-center gap-2 rounded-2xl border border-lime/30 bg-lime/[0.06] p-5 text-center sm:flex-row sm:justify-between sm:text-left"
+      >
+        <div>
+          <p className="font-display text-base font-semibold text-bone">
+            Download your guide
+          </p>
+          <p className="text-sm text-ash">
+            Save an offline PDF copy with every link, note, and pro tip.
+          </p>
+        </div>
+        <a
+          href={downloadHref}
+          className="group inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-lime px-5 font-display text-sm font-semibold tracking-tight text-ink shadow-glow transition-all duration-200 hover:-translate-y-0.5 hover:shadow-glow-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          Download PDF
+        </a>
+      </motion.div>
 
       <div className="mt-8 space-y-8">
         {guide.sections.map((section, sIdx) => (

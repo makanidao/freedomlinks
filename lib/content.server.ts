@@ -705,6 +705,27 @@ const baseContent: Record<Exclude<ProductSlug, "all-vendors">, DeliveredGuide> =
       "Track every cost — item, shipping, fees, supplies — so your 'profit' is real profit. Most beginners overstate margins by ignoring fees.",
     ],
   },
+
+  test: {
+    intro:
+      "This is a test product used to check the store flow end to end. It carries placeholder content only — no real sourcing links.",
+    sections: [
+      {
+        title: "Test section",
+        blurb: "A placeholder section so the delivery view has something to render.",
+        links: [
+          {
+            label: "Example placeholder link",
+            url: "https://example.com/",
+            note: "Harmless placeholder destination. Swap this out if you turn the test item into a real product.",
+          },
+        ],
+      },
+    ],
+    proTips: [
+      "This is a test item — safe to leave $0 or delete once you're done checking the flow.",
+    ],
+  },
 };
 
 // ── Bundle assembly ─────────────────────────────────────────────────────────
